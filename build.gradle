@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        maven { url "http://localhost:8081/nexus/content/groups/public" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    maven { url "http://localhost:8081/nexus/content/groups/public" }
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18.1.1"
+
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 18
+    }
+}
+
+dependencies {
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}
