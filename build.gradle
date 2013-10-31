@@ -23,8 +23,5 @@ android {
 }
 
 dependencies {
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.8'
+    compile 'com.squareup.okhttp:okhttp:1.2.1'
 }
