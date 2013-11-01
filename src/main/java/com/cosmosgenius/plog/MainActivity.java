@@ -2,7 +2,7 @@ package com.cosmosgenius.plog;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
@@ -15,8 +15,7 @@ public class MainActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        TextView textView = (TextView) findViewById(R.id.text_view);
-        textView.setText("Hello world!");
+        ListView logList = (ListView) findViewById(R.id.loglist);
     }
 
 }
