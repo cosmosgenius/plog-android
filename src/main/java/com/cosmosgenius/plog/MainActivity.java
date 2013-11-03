@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     ImageButton btn_log;
     EditText log_text;
-
+    LogListAdapter logListAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +23,19 @@ public class MainActivity extends Activity {
         btn_log = (ImageButton) findViewById(R.id.btn_log);
         log_text = (EditText) findViewById(R.id.input_log);
         enableBtn_log(false);
+        ListView log_list = (ListView) findViewById(R.id.log_list);
+        logListAdapter = new LogListAdapter(getApplicationContext());
+/*        String [] l = {"Sharat","Praseetha"};
+        for(int i = 0; i< l.length ; i++){
+            logListAdapter.add(l[i]);
+        }
+        logListAdapter.add("Logs");*/
+        log_list.setAdapter(logListAdapter);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         log_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -44,14 +59,11 @@ public class MainActivity extends Activity {
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
     public void btn_log_click(View view){
         log_text = (EditText) findViewById(R.id.input_log);
+        if((log_text.getText() != null) && (log_text.getText().length() > 0)){
+            logListAdapter.add(log_text.getText().toString());
+        }
         log_text.setText("");
         enableBtn_log(false);
     }
