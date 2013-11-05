@@ -50,11 +50,7 @@ public class MainActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String text = editable.toString();
-                if(text.length() > 0){
-                    enableBtn_log(true);
-                }else{
-                    enableBtn_log(false);
-                }
+                enableBtn_log(text.length() > 0);
             }
         });
     }
@@ -65,7 +61,6 @@ public class MainActivity extends Activity {
             logListAdapter.add(log_text.getText().toString());
         }
         log_text.setText("");
-        enableBtn_log(false);
     }
 
     void enableBtn_log(boolean value){
