@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         enableBtn_log(false);
 
         //attaching the Adapter to the list view
-        logListAdapter = new LogListAdapter(getApplicationContext());
+        logListAdapter = new LogListAdapter(this);
         log_list.setAdapter(logListAdapter);
     }
 
