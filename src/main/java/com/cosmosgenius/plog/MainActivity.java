@@ -1,6 +1,7 @@
 package com.cosmosgenius.plog;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,10 +10,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.squareup.okhttp.OkHttpClient;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
 public class MainActivity extends Activity {
     ImageButton btn_log;            // send Button resource
     EditText log_text;              // text input box
     LogListAdapter logListAdapter;  // The adapter attached to the listview
+    ListView log_list;              // The List view
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,17 +32,19 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_activity);
 
         // setting the objects
-        btn_log = (ImageButton) findViewById(R.id.btn_log);
+        btn_log  = (ImageButton) findViewById(R.id.btn_log);
         log_text = (EditText) findViewById(R.id.input_log);
-        ListView log_list = (ListView) findViewById(R.id.log_list);
+        log_list = (ListView) findViewById(R.id.log_list);
 
         // By default disabling the Send button
         // TODO : Create a custom button with custom enable and disable option
         enableBtn_log(false);
-
-        //attaching the Adapter to the list view
         logListAdapter = new LogListAdapter(this);
-        log_list.setAdapter(logListAdapter);
+        try {
+            new restgetlist().execute(new URL("http://log.cosmosgenius.webfactional.com"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -75,6 +89,51 @@ public class MainActivity extends Activity {
             btn_log.setAlpha(1.0f);
         }else{
             btn_log.setAlpha(0.5f);
+        }
+    }
+
+    private class restgetlist extends AsyncTask< URL, Void ,ArrayList<String>>{
+        OkHttpClient client = new OkHttpClient();
+
+        @Override
+        protected ArrayList<String> doInBackground(URL... urls) {
+            ArrayList<String> logs = new ArrayList<String>();
+            String log;
+            try{
+                log = get(urls[0]);
+                logs.add(log);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return logs;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> logs){
+            logListAdapter.setSrc(logs);
+            log_list.setAdapter(logListAdapter);
+        }
+
+        String get(URL url) throws IOException {
+            HttpURLConnection connection = client.open(url);
+            InputStream in = null;
+            try {
+                // Read the response.
+                in = connection.getInputStream();
+                byte[] response = readFully(in);
+                return new String(response, "UTF-8");
+            } finally {
+                if (in != null) in.close();
+            }
+        }
+
+        byte[] readFully(InputStream in) throws IOException {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            for (int count; (count = in.read(buffer)) != -1; ) {
+                out.write(buffer, 0, count);
+            }
+            return out.toByteArray();
         }
     }
 }

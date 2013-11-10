@@ -66,4 +66,9 @@ public class LogListAdapter extends BaseAdapter{
         this.m_logs = new ArrayList<String>();
         this.context = context;
     }
+
+    public void setSrc(ArrayList<String> logs){
+        this.m_logs = logs;
+        notifyDataSetChanged();
+    }
 }
