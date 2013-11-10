@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
     EditText log_text;              // text input box
     LogListAdapter logListAdapter;  // The adapter attached to the listview
     ListView log_list;              // The List view
-
+    String logServerURL;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +35,13 @@ public class MainActivity extends Activity {
         btn_log  = (ImageButton) findViewById(R.id.btn_log);
         log_text = (EditText) findViewById(R.id.input_log);
         log_list = (ListView) findViewById(R.id.log_list);
-
+        logServerURL = getString(R.string.url);
         // By default disabling the Send button
         // TODO : Create a custom button with custom enable and disable option
         enableBtn_log(false);
         logListAdapter = new LogListAdapter(this);
         try {
-            new restgetlist().execute(new URL("http://log.cosmosgenius.webfactional.com"));
+            new restgetlist().execute(new URL(logServerURL));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

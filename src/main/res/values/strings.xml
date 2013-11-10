@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Personal Logger</string>
     <string name="show_log">Show Logs</string>
+    <string name="url">http://10.0.2.2:8000/log</string>
 </resources>
