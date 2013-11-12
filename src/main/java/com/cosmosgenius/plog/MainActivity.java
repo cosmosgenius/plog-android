@@ -21,27 +21,27 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    ImageButton btn_log;            // send Button resource
-    EditText log_text;              // text input box
-    LogListAdapter logListAdapter;  // The adapter attached to the listview
-    ListView log_list;              // The List view
-    String logServerURL;
+    ImageButton btn_plog;            // send Button resource
+    EditText plog_text;              // text input box
+    PlogListAdapter plogListAdapter;  // The adapter attached to the listview
+    ListView plog_list;              // The List view
+    String plogServerURL;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
         // setting the objects
-        btn_log  = (ImageButton) findViewById(R.id.btn_log);
-        log_text = (EditText) findViewById(R.id.input_log);
-        log_list = (ListView) findViewById(R.id.log_list);
-        logServerURL = getString(R.string.url);
+        btn_plog  = (ImageButton) findViewById(R.id.btn_plog);
+        plog_text = (EditText) findViewById(R.id.input_plog);
+        plog_list = (ListView) findViewById(R.id.plog_list);
+        plogServerURL = getString(R.string.url);
         // By default disabling the Send button
         // TODO : Create a custom button with custom enable and disable option
-        enableBtn_log(false);
-        logListAdapter = new LogListAdapter(this);
+        enableBtn_plog(false);
+        plogListAdapter = new PlogListAdapter(this);
         try {
-            new restgetlist().execute(new URL(logServerURL));
+            new RestGetList().execute(new URL(plogServerURL));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 
         //attaching a text change listener to the edit text to find whether to
         //enable the send button or not
-        log_text.addTextChangedListener(new TextWatcher() {
+        plog_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -67,51 +67,51 @@ public class MainActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String text = editable.toString();
-                enableBtn_log(text.length() > 0);
+                enableBtn_plog(text.length() > 0);
             }
         });
     }
 
     //send button click event handler
-    public void btn_log_click(View view){
+    public void btn_plog_click(View view){
         //getting the text for edit text and added to the list adapter
-        if((log_text.getText() != null) && (log_text.getText().length() > 0)){
-            logListAdapter.add(log_text.getText().toString());
+        if((plog_text.getText() != null) && (plog_text.getText().length() > 0)){
+            plogListAdapter.add(plog_text.getText().toString());
         }
         //clearing the text after the text has been added to the list adapter
-        log_text.setText("");
+        plog_text.setText("");
     }
 
     //Function to whether enable or disable the function
-    void enableBtn_log(boolean value){
-        btn_log.setEnabled(value);
+    void enableBtn_plog(boolean value){
+        btn_plog.setEnabled(value);
         if(value){
-            btn_log.setAlpha(1.0f);
+            btn_plog.setAlpha(1.0f);
         }else{
-            btn_log.setAlpha(0.5f);
+            btn_plog.setAlpha(0.5f);
         }
     }
 
-    private class restgetlist extends AsyncTask< URL, Void ,ArrayList<String>>{
+    private class RestGetList extends AsyncTask< URL, Void ,ArrayList<String>>{
         OkHttpClient client = new OkHttpClient();
 
         @Override
         protected ArrayList<String> doInBackground(URL... urls) {
-            ArrayList<String> logs = new ArrayList<String>();
-            String log;
+            ArrayList<String> plogs = new ArrayList<String>();
+            String plog;
             try{
-                log = get(urls[0]);
-                logs.add(log);
+               plog = get(urls[0]);
+               plogs.add(plog);
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return logs;
+            return plogs;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> logs){
-            logListAdapter.setSrc(logs);
-            log_list.setAdapter(logListAdapter);
+        protected void onPostExecute(ArrayList<String>plogs){
+           plogListAdapter.setSrc(plogs);
+           plog_list.setAdapter(plogListAdapter);
         }
 
         String get(URL url) throws IOException {
