@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class PlogListAdapter extends BaseAdapter{
-    private ArrayList<String> m_plogs;
+    private ArrayList<PlogBean> m_plogs;
     Context context;
 
     private static class ViewHolder {
@@ -27,7 +27,7 @@ public class PlogListAdapter extends BaseAdapter{
     }
 
     @Override
-    public String getItem(int position) {
+    public PlogBean getItem(int position) {
         return m_plogs.get(position);
     }
 
@@ -39,6 +39,7 @@ public class PlogListAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         TextView plogText;
+        PlogBean plog = getItem(i);
         if (convertView == null) {
             convertView = LayoutInflater.from(context)
                     .inflate(R.layout.plog_item, parent, false);
@@ -48,26 +49,29 @@ public class PlogListAdapter extends BaseAdapter{
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             plogText = viewHolder.plogView;
         }
-        plogText.setText(getItem(i));
+        plogText.setText(plog.getPlog());
         return convertView;
     }
 
     public void add(String new_plog){
-        this.m_plogs.add(new_plog);
+        PlogBean plog = new PlogBean();
+        plog.setPlog(new_plog);
+        this.m_plogs.add(plog);
         notifyDataSetChanged();
+
     }
 
-    public PlogListAdapter(Context context, ArrayList<String> plogs) {
+    public PlogListAdapter(Context context, ArrayList<PlogBean> plogs) {
         this.m_plogs = plogs;
         this.context = context;
     }
 
     public PlogListAdapter(Context context) {
-        this.m_plogs = new ArrayList<String>();
+        this.m_plogs = new ArrayList<PlogBean>();
         this.context = context;
     }
 
-    public void setSrc(ArrayList<String> plogs){
+    public void setSrc(ArrayList<PlogBean> plogs){
         this.m_plogs = plogs;
         notifyDataSetChanged();
     }

@@ -92,24 +92,22 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class RestGetList extends AsyncTask< URL, Void ,ArrayList<String>>{
+    private class RestGetList extends AsyncTask< URL, Void ,ArrayList<PlogBean>>{
         OkHttpClient client = new OkHttpClient();
 
         @Override
-        protected ArrayList<String> doInBackground(URL... urls) {
-            ArrayList<String> plogs = new ArrayList<String>();
-            String plog;
+        protected ArrayList<PlogBean> doInBackground(URL... urls) {
+            String JSONBody = "";
             try{
-               plog = get(urls[0]);
-               plogs.add(plog);
+               JSONBody = get(urls[0]);
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return plogs;
+            return PlogBean.fromJSON(JSONBody);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String>plogs){
+        protected void onPostExecute(ArrayList<PlogBean>plogs){
            plogListAdapter.setSrc(plogs);
            plog_list.setAdapter(plogListAdapter);
         }
