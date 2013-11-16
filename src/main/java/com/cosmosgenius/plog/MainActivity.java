@@ -20,7 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements EmitterInterface<ArrayList<PlogBean>>{
     ImageButton btn_plog;            // send Button resource
     EditText plog_text;              // text input box
     PlogListAdapter plogListAdapter;  // The adapter attached to the listview
@@ -40,8 +40,9 @@ public class MainActivity extends Activity {
         // TODO : Create a custom button with custom enable and disable option
         enableBtn_plog(false);
         plogListAdapter = new PlogListAdapter(this);
+        RestTask rest = new RestTask(this);
         try {
-            new RestGetList().execute(new URL(plogServerURL));
+            rest.execute(new URL(plogServerURL));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -92,46 +93,9 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class RestGetList extends AsyncTask< URL, Void ,ArrayList<PlogBean>>{
-        OkHttpClient client = new OkHttpClient();
-
-        @Override
-        protected ArrayList<PlogBean> doInBackground(URL... urls) {
-            String JSONBody = "";
-            try{
-               JSONBody = get(urls[0]);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return PlogBean.fromJSON(JSONBody);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<PlogBean>plogs){
-           plogListAdapter.setSrc(plogs);
-           plog_list.setAdapter(plogListAdapter);
-        }
-
-        String get(URL url) throws IOException {
-            HttpURLConnection connection = client.open(url);
-            InputStream in = null;
-            try {
-                // Read the response.
-                in = connection.getInputStream();
-                byte[] response = readFully(in);
-                return new String(response, "UTF-8");
-            } finally {
-                if (in != null) in.close();
-            }
-        }
-
-        byte[] readFully(InputStream in) throws IOException {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            for (int count; (count = in.read(buffer)) != -1; ) {
-                out.write(buffer, 0, count);
-            }
-            return out.toByteArray();
-        }
+    @Override
+    public void done(ArrayList<PlogBean> plogs) {
+        plogListAdapter.setSrc(plogs);
+        plog_list.setAdapter(plogListAdapter);
     }
 }
