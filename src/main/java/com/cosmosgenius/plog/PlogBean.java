@@ -31,4 +31,8 @@ public class PlogBean {
         return new Gson().fromJson(JSONBody, new TypeToken<ArrayList<PlogBean>>() {
         }.getType());
     }
+
+    public String toJSON(){
+        return new Gson().toJson(this);
+    }
 }
