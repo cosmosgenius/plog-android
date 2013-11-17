@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class PlogListAdapter extends BaseAdapter{
+public class PlogListAdapter extends BaseAdapter implements EmitterInterface<ArrayList<PlogBean>>{
     private ArrayList<PlogBean> m_plogs;
     Context context;
 
@@ -53,12 +55,17 @@ public class PlogListAdapter extends BaseAdapter{
         return convertView;
     }
 
+    @Override
+    public void done(ArrayList<PlogBean> plogs) {
+        this.setSrc(plogs);
+        notifyDataSetChanged();
+    }
+
     public void add(String new_plog){
         PlogBean plog = new PlogBean();
         plog.setPlog(new_plog);
         this.m_plogs.add(plog);
         notifyDataSetChanged();
-
     }
 
     public PlogListAdapter(Context context, ArrayList<PlogBean> plogs) {
@@ -69,6 +76,12 @@ public class PlogListAdapter extends BaseAdapter{
     public PlogListAdapter(Context context) {
         this.m_plogs = new ArrayList<PlogBean>();
         this.context = context;
+        RestTask rest = new RestTask(this);
+        try {
+            rest.execute(new URL(context.getString(R.string.url)));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setSrc(ArrayList<PlogBean> plogs){

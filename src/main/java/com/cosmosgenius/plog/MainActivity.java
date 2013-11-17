@@ -1,7 +1,6 @@
 package com.cosmosgenius.plog;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,22 +9,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.squareup.okhttp.OkHttpClient;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
-public class MainActivity extends Activity implements EmitterInterface<ArrayList<PlogBean>>{
+public class MainActivity extends Activity{
     ImageButton btn_plog;            // send Button resource
     EditText plog_text;              // text input box
     PlogListAdapter plogListAdapter;  // The adapter attached to the listview
     ListView plog_list;              // The List view
-    String plogServerURL;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,23 +24,17 @@ public class MainActivity extends Activity implements EmitterInterface<ArrayList
         btn_plog  = (ImageButton) findViewById(R.id.btn_plog);
         plog_text = (EditText) findViewById(R.id.input_plog);
         plog_list = (ListView) findViewById(R.id.plog_list);
-        plogServerURL = getString(R.string.url);
+
         // By default disabling the Send button
         // TODO : Create a custom button with custom enable and disable option
         enableBtn_plog(false);
         plogListAdapter = new PlogListAdapter(this);
-        RestTask rest = new RestTask(this);
-        try {
-            rest.execute(new URL(plogServerURL));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        plog_list.setAdapter(plogListAdapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         //attaching a text change listener to the edit text to find whether to
         //enable the send button or not
         plog_text.addTextChangedListener(new TextWatcher() {
@@ -91,11 +74,5 @@ public class MainActivity extends Activity implements EmitterInterface<ArrayList
         }else{
             btn_plog.setAlpha(0.5f);
         }
-    }
-
-    @Override
-    public void done(ArrayList<PlogBean> plogs) {
-        plogListAdapter.setSrc(plogs);
-        plog_list.setAdapter(plogListAdapter);
     }
 }
