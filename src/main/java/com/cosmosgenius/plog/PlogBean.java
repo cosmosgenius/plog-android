@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class PlogBean {
     private String plog;
-    private String id;
+    private String _id;
 
     public String getPlog() {
         return plog;
@@ -19,11 +19,11 @@ public class PlogBean {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public PlogBean setId(String id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
