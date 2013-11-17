@@ -11,6 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/linearLayout"
+        android:transcriptMode="alwaysScroll"
         tools:listitem="@layout/plog_item" />
 
     <LinearLayout
