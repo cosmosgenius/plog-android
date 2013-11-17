@@ -1,6 +1,5 @@
 package com.cosmosgenius.plog;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -14,10 +13,12 @@ import java.util.ArrayList;
 
 public class RestTask extends AsyncTask<URL, Void ,ArrayList<PlogBean>>{
     OkHttpClient client = new OkHttpClient();
-    EmitterInterface activity;
-    RestTask(EmitterInterface activity){
+    EmitterInterface<ArrayList<PlogBean>> activity;
+
+    RestTask(EmitterInterface<ArrayList<PlogBean>> activity){
         this.activity = activity;
     }
+
     @Override
     protected ArrayList<PlogBean> doInBackground(URL... urls) {
         String JSONBody = "";
