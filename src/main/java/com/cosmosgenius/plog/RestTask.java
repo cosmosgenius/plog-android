@@ -7,11 +7,12 @@ import com.squareup.okhttp.OkHttpClient;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class RestTask extends AsyncTask<URL, Void ,ArrayList<PlogBean>>{
+public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
     public static String GET = "GET";
     public static String POST = "POST";
     public static String DELETE = "DELETE";
@@ -28,10 +29,17 @@ public class RestTask extends AsyncTask<URL, Void ,ArrayList<PlogBean>>{
     }
 
     @Override
-    protected ArrayList<PlogBean> doInBackground(URL... urls) {
+    protected ArrayList<PlogBean> doInBackground(PlogBean... plogs) {
         String JSONBody = "";
         try{
-            JSONBody = get(url);
+            if(method.equals(GET)){
+                JSONBody = get(url);
+            }else if(method.equals(POST)){
+                JSONBody = post(url,plogs[0].toJSON().getBytes());
+                JSONBody = get(url);
+            }else if(method.equals(DELETE)){
+
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -52,6 +60,32 @@ public class RestTask extends AsyncTask<URL, Void ,ArrayList<PlogBean>>{
             byte[] response = readFully(in);
             return new String(response, "UTF-8");
         } finally {
+            if (in != null) in.close();
+        }
+    }
+
+    String post(URL url,byte[] body) throws IOException {
+        HttpURLConnection connection = client.open(url);
+        OutputStream out = null;
+        InputStream in = null;
+        try {
+            // Write the request.
+            connection.setRequestMethod("POST");
+            out = connection.getOutputStream();
+            out.write(body);
+            out.close();
+
+            // Read the response.
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException("Unexpected HTTP response: "
+                        + connection.getResponseCode() + " " + connection.getResponseMessage());
+            }
+            in = connection.getInputStream();
+            byte[] response = readFully(in);
+            return new String(response, "UTF-8");
+        } finally {
+            // Clean up.
+            if (out != null) out.close();
             if (in != null) in.close();
         }
     }

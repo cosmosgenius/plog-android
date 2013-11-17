@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class PlogListAdapter extends BaseAdapter implements EmitterInterface<ArrayList<PlogBean>>{
     private ArrayList<PlogBean> m_plogs;
     Context context;
+    URL url = null;
 
     private static class ViewHolder {
         public final TextView plogView;
@@ -62,9 +63,11 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
     }
 
     public void add(String new_plog){
+        RestTask rest = new RestTask(this,url,RestTask.POST);
         PlogBean plog = new PlogBean();
         plog.setPlog(new_plog);
         this.m_plogs.add(plog);
+        rest.execute(plog);
         notifyDataSetChanged();
     }
 
@@ -76,7 +79,6 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
     public PlogListAdapter(Context context) {
         this.m_plogs = new ArrayList<PlogBean>();
         this.context = context;
-        URL url = null;
         try {
             url = new URL(context.getString(R.string.url));
         } catch (MalformedURLException e) {
