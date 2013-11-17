@@ -70,6 +70,7 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
         InputStream in = null;
         try {
             // Write the request.
+            connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod("POST");
             out = connection.getOutputStream();
             out.write(body);
