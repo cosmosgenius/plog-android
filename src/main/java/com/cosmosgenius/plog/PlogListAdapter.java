@@ -76,12 +76,14 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
     public PlogListAdapter(Context context) {
         this.m_plogs = new ArrayList<PlogBean>();
         this.context = context;
-        RestTask rest = new RestTask(this);
+        URL url = null;
         try {
-            rest.execute(new URL(context.getString(R.string.url)));
+            url = new URL(context.getString(R.string.url));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        RestTask rest = new RestTask(this,url,RestTask.GET);
+        rest.execute();
     }
 
     public void setSrc(ArrayList<PlogBean> plogs){

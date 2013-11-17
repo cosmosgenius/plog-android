@@ -12,18 +12,26 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class RestTask extends AsyncTask<URL, Void ,ArrayList<PlogBean>>{
-    OkHttpClient client = new OkHttpClient();
-    EmitterInterface<ArrayList<PlogBean>> activity;
+    public static String GET = "GET";
+    public static String POST = "POST";
+    public static String DELETE = "DELETE";
 
-    RestTask(EmitterInterface<ArrayList<PlogBean>> activity){
+    private OkHttpClient client = new OkHttpClient();
+    private EmitterInterface<ArrayList<PlogBean>> activity;
+    private String method;
+    private URL url;
+
+    RestTask(EmitterInterface<ArrayList<PlogBean>> activity ,URL url,String method){
         this.activity = activity;
+        this.url = url;
+        this.method = method;
     }
 
     @Override
     protected ArrayList<PlogBean> doInBackground(URL... urls) {
         String JSONBody = "";
         try{
-            JSONBody = get(urls[0]);
+            JSONBody = get(url);
         }catch (Exception e){
             e.printStackTrace();
         }
