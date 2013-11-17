@@ -13,16 +13,18 @@ public class PlogBean {
         return plog;
     }
 
-    public void setPlog(String plog) {
+    public PlogBean setPlog(String plog) {
         this.plog = plog;
+        return this;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public PlogBean setId(String id) {
         this.id = id;
+        return this;
     }
 
     public static ArrayList<PlogBean> fromJSON(String JSONBody){
