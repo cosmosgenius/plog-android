@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url "http://localhost:8081/nexus/content/groups/public" }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
