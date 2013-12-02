@@ -38,7 +38,7 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
                 JSONBody = post(url,plogs[0].toJSON().getBytes());
                 JSONBody = get(url);
             }else if(method.equals(DELETE)){
-
+                delete(url);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
         try {
             // Write the request.
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(POST);
             out = connection.getOutputStream();
             out.write(body);
             out.close();
@@ -89,6 +89,11 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
             if (out != null) out.close();
             if (in != null) in.close();
         }
+    }
+
+    void delete(URL url) throws IOException {
+        HttpURLConnection connection = client.open(url);
+        connection.setRequestMethod(DELETE);
     }
 
     byte[] readFully(InputStream in) throws IOException {
