@@ -58,10 +58,11 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
             plogText = viewHolder.plogTextView;
             plogListBtn = viewHolder.plogListBtn;
         }
+        plogListBtn.setTag(new Integer(position));
         plogListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                delete(((Integer) view.getTag()).intValue());
             }
         });
         plogText.setText(plog.getPlog());
@@ -80,6 +81,19 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
         plog.setPlog(new_plog);
         this.m_plogs.add(plog);
         rest.execute(plog);
+        notifyDataSetChanged();
+    }
+
+    public void delete(int position){
+        PlogBean plog;
+        plog=m_plogs.get(position);
+        try{
+            RestTask rest = new RestTask(this,new URL(url,plog.getId()),RestTask.DELETE);
+            rest.execute();
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        m_plogs.remove(position);
         notifyDataSetChanged();
     }
 

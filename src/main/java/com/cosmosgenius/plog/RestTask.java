@@ -48,6 +48,8 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
 
     @Override
     protected void onPostExecute(ArrayList<PlogBean>plogs){
+        if(method.equals(DELETE))
+            return;
         activity.done(plogs);
     }
 
@@ -94,6 +96,7 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
     void delete(URL url) throws IOException {
         HttpURLConnection connection = client.open(url);
         connection.setRequestMethod(DELETE);
+        int res = connection.getResponseCode();
     }
 
     byte[] readFully(InputStream in) throws IOException {
