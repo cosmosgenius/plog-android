@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.net.MalformedURLException;
@@ -17,10 +18,12 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
     URL url = null;
 
     private static class ViewHolder {
-        public final TextView plogView;
+        public final TextView plogTextView;
+        public final ImageButton plogListBtn;
 
-        public ViewHolder(TextView logView) {
-            this.plogView = logView;
+        public ViewHolder(TextView logView, ImageButton plogListBtn) {
+            this.plogTextView = logView;
+            this.plogListBtn = plogListBtn;
         }
     }
 
@@ -40,18 +43,27 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         TextView plogText;
-        PlogBean plog = getItem(i);
+        ImageButton plogListBtn;
+        PlogBean plog = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context)
                     .inflate(R.layout.plog_item, parent, false);
             plogText = (TextView)convertView.findViewById(R.id.plogText);
-            convertView.setTag(new ViewHolder(plogText));
+            plogListBtn = (ImageButton)convertView.findViewById(R.id.btn_plog_item_del);
+            convertView.setTag(new ViewHolder(plogText,plogListBtn));
         }else{
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-            plogText = viewHolder.plogView;
+            plogText = viewHolder.plogTextView;
+            plogListBtn = viewHolder.plogListBtn;
         }
+        plogListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         plogText.setText(plog.getPlog());
         return convertView;
     }
