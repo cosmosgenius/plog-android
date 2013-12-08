@@ -79,7 +79,7 @@ public class RestTask extends AsyncTask<PlogBean, Void ,ArrayList<PlogBean>>{
             out.close();
 
             // Read the response.
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
                 throw new IOException("Unexpected HTTP response: "
                         + connection.getResponseCode() + " " + connection.getResponseMessage());
             }
