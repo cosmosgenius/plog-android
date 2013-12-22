@@ -9,7 +9,9 @@ buildscript {
 apply plugin: 'android'
 
 repositories {
-    maven { url "http://localhost:8081/nexus/content/groups/public" }
+    maven {
+        mavenCentral()
+    }
 }
 
 android {
