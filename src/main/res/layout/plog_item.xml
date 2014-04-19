@@ -23,7 +23,6 @@
         android:id="@+id/btn_plog_item_del"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/content_discard"
-        android:onClick="btn_plog_item_del"
         android:layout_alignParentRight="true" />
 
 </RelativeLayout>
