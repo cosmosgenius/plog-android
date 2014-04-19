@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class PlogListAdapter extends BaseAdapter implements EmitterInterface<ArrayList<PlogBean>>{
     private ArrayList<PlogBean> m_plogs;
-    Context context;
-    URL url = null;
+    private Context context;
+    private URL url = null;
 
     private static class ViewHolder {
         public final TextView plogTextView;
@@ -58,7 +58,7 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
             plogText = viewHolder.plogTextView;
             plogListBtn = viewHolder.plogListBtn;
         }
-        plogListBtn.setTag(new Integer(position));
+        plogListBtn.setTag(Integer.valueOf(position));
         plogListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +84,7 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
         notifyDataSetChanged();
     }
 
-    public void delete(int position){
+    void delete(int position){
         PlogBean plog;
         plog=m_plogs.get(position);
         try{
@@ -114,7 +114,7 @@ public class PlogListAdapter extends BaseAdapter implements EmitterInterface<Arr
         rest.execute();
     }
 
-    public void setSrc(ArrayList<PlogBean> plogs){
+    void setSrc(ArrayList<PlogBean> plogs){
         this.m_plogs = plogs;
         notifyDataSetChanged();
     }

@@ -10,10 +10,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class MainActivity extends Activity{
-    ImageButton btn_plog;            // send Button resource
-    EditText plog_text;              // text input box
-    PlogListAdapter plogListAdapter;  // The adapter attached to the listview
-    ListView plog_list;              // The List view
+    private ImageButton btn_plog;            // send Button resource
+    private EditText plog_text;              // text input box
+    private PlogListAdapter plogListAdapter;  // The adapter attached to the listview
+    private ListView plog_list;              // The List view
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
