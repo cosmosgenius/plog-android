@@ -1,7 +1,18 @@
 package com.cosmosgenius.plog.service;
 
-/**
- * Created by Sharat on 20-04-2014.
- */
+import java.util.List;
+
+import retrofit.http.DELETE;
+import retrofit.http.GET;
+import retrofit.http.POST;
+
 public interface LogService {
+    @GET("")
+    List getLogs();
+
+    @POST("")
+    Object log();
+
+    @DELETE("")
+    boolean deleteLog();
 }
