@@ -6,6 +6,7 @@ import android.widget.BaseAdapter;
 
 import com.cosmosgenius.plog.bean.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LogListAdapter extends BaseAdapter {
@@ -34,5 +35,13 @@ public class LogListAdapter extends BaseAdapter {
 
     public void add(String value){
 
+    }
+
+    public LogListAdapter() {
+        this.m_logs = new ArrayList<Log>();
+    }
+
+    public LogListAdapter(List<Log> m_logs) {
+        this.m_logs = m_logs;
     }
 }

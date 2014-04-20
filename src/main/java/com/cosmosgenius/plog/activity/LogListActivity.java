@@ -24,10 +24,13 @@ public class LogListActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_list_activity);
 
-        add_log     = (LogButton) findViewById(R.id.add_log);
-        input_log   = (EditText) findViewById(R.id.input_log);
-        log_list    = (ListView) findViewById(R.id.log_list);
+        add_log         = (LogButton) findViewById(R.id.add_log);
+        input_log       = (EditText) findViewById(R.id.input_log);
+        log_list        = (ListView) findViewById(R.id.log_list);
+        logListAdapter  = new LogListAdapter();
 
+        log_list.setAdapter(logListAdapter);
+        
         add_log.enable(false);
 
         add_log.setOnClickListener(new View.OnClickListener(){
