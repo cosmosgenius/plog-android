@@ -34,11 +34,10 @@
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:id="@+id/btn_log"
+            android:id="@+id/add_log"
             android:layout_gravity="center_vertical"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/social_send_now"
-            android:onClick="btn_log_click"
             />
         </LinearLayout>
 </RelativeLayout>
