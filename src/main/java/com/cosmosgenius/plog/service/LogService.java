@@ -1,18 +1,24 @@
 package com.cosmosgenius.plog.service;
 
+import com.cosmosgenius.plog.bean.Log;
+
 import java.util.List;
 
 import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 public interface LogService {
-    @GET("")
-    List getLogs();
+    @GET("/")
+    List<Log> getLogs();
 
-    @POST("")
-    Object log();
+    @GET("/{id}")
+    Log getLog(@Path("id") String id);
 
-    @DELETE("")
+    @POST("/")
+    Log log();
+
+    @DELETE("/")
     boolean deleteLog();
 }
