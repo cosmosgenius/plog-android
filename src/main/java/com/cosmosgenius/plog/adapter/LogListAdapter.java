@@ -31,4 +31,8 @@ public class LogListAdapter extends BaseAdapter {
         Log log = getItem(i);
         return null;
     }
+
+    public void add(String value){
+
+    }
 }

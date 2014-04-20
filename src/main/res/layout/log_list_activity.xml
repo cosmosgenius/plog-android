@@ -31,7 +31,7 @@
             android:imeOptions="actionDone"
             android:inputType="textMultiLine" />
 
-        <ImageButton
+        <com.cosmosgenius.plog.button.LogButton
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:id="@+id/add_log"
