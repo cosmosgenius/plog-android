@@ -19,4 +19,17 @@ public class Log {
     public void set_id(String _id) {
         this._id = _id;
     }
+
+    public Log() {
+        this("");
+    }
+
+    public Log(String log) {
+        this(log,"");
+    }
+
+    public Log(String log, String _id) {
+        this.plog = log;
+        this._id = _id;
+    }
 }

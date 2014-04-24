@@ -34,14 +34,26 @@ public class LogListAdapter extends BaseAdapter {
     }
 
     public void add(String value){
+        Log log = new Log(value);
+        m_logs.add(log);
+        notifyDataSetChanged();
+    }
 
+    public void delete(int position){
+        m_logs.remove(position);
+        notifyDataSetChanged();
     }
 
     public LogListAdapter() {
-        this.m_logs = new ArrayList<Log>();
+        this(new ArrayList<Log>());
     }
 
     public LogListAdapter(List<Log> m_logs) {
         this.m_logs = m_logs;
+    }
+
+    public void updateList(List<Log> m_logs){
+        this.m_logs = m_logs;
+        notifyDataSetChanged();
     }
 }

@@ -30,7 +30,7 @@ public class LogListActivity extends Activity{
         logListAdapter  = new LogListAdapter();
 
         log_list.setAdapter(logListAdapter);
-        
+
         add_log.enable(false);
 
         add_log.setOnClickListener(new View.OnClickListener(){
