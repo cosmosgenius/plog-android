@@ -60,8 +60,7 @@ public class LogListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(m_context,String.valueOf(view.getTag()),Toast.LENGTH_LONG);
-                toast.show();
+                delete((Integer)view.getTag());
             }
         });
 
@@ -75,6 +74,8 @@ public class LogListAdapter extends BaseAdapter {
     }
 
     public void delete(int position){
+        Toast toast = Toast.makeText(m_context,String.valueOf(position),Toast.LENGTH_LONG);
+        toast.show();
         m_logs.remove(position);
         notifyDataSetChanged();
     }
