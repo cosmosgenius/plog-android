@@ -19,6 +19,6 @@ public interface LogService {
     @POST("/")
     Log log();
 
-    @DELETE("/")
+    @DELETE("/{id}")
     boolean deleteLog();
 }

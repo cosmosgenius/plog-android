@@ -1,23 +1,21 @@
 package com.cosmosgenius.plog.activity;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.cosmosgenius.plog.R;
 import com.cosmosgenius.plog.adapter.LogListAdapter;
 import com.cosmosgenius.plog.button.LogButton;
 
-public class LogListActivity extends Activity{
+public class LogListActivity extends ListActivity {
 
     private LogListAdapter logListAdapter;
     private LogButton add_log;
     private EditText input_log;
-    private ListView log_list;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -26,10 +24,10 @@ public class LogListActivity extends Activity{
 
         add_log         = (LogButton) findViewById(R.id.add_log);
         input_log       = (EditText) findViewById(R.id.input_log);
-        log_list        = (ListView) findViewById(R.id.log_list);
-        logListAdapter  = new LogListAdapter();
 
-        log_list.setAdapter(logListAdapter);
+        logListAdapter  = new LogListAdapter(this);
+
+        this.setListAdapter(logListAdapter);
 
         add_log.enable(false);
 
