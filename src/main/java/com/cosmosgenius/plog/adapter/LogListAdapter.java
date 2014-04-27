@@ -7,17 +7,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cosmosgenius.plog.R;
 import com.cosmosgenius.plog.bean.Log;
+import com.cosmosgenius.plog.service.LogService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.ErrorHandler;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class LogListAdapter extends BaseAdapter {
     private List<Log> m_logs;
     private Context m_context;
+    private final LogService logService;
 
     @Override
     public int getCount() {
@@ -60,7 +67,7 @@ public class LogListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                delete((Integer)view.getTag());
+                delete((Integer) view.getTag());
             }
         });
 
@@ -69,14 +76,40 @@ public class LogListAdapter extends BaseAdapter {
 
     public void add(String value){
         Log log = new Log(value);
-        m_logs.add(log);
-        notifyDataSetChanged();
+        try{
+            logService.log(log,new Callback<Log>() {
+                @Override
+                public void success(Log log, Response response) {
+                    m_logs.add(log);
+                    notifyDataSetChanged();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void delete(int position){
-        Toast toast = Toast.makeText(m_context,String.valueOf(position),Toast.LENGTH_LONG);
-        toast.show();
+        Log log = getItem(position);
         m_logs.remove(position);
+        logService.deleteLog(log.get_id(),new Callback<Boolean>() {
+            @Override
+            public void success(Boolean aBoolean, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         notifyDataSetChanged();
     }
 
@@ -87,6 +120,12 @@ public class LogListAdapter extends BaseAdapter {
     public LogListAdapter(Context context,List<Log> m_logs) {
         this.m_context = context;
         this.m_logs = m_logs;
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(context.getString(R.string.url))
+                .setErrorHandler(new MyErrorHandler())
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        logService = restAdapter.create(LogService.class);
     }
 
     public void updateList(List<Log> m_logs){
@@ -102,5 +141,15 @@ class ViewHolder{
     ViewHolder(TextView textView,ImageButton imageButton){
         this.m_textView = textView;
         this.m_imageButton = imageButton;
+    }
+}
+
+class MyErrorHandler implements ErrorHandler {
+    @Override public Throwable handleError(RetrofitError cause) {
+        Response r = cause.getResponse();
+        if (r != null && r.getStatus() == 401) {
+            cause.printStackTrace();
+        }
+        return cause;
     }
 }
