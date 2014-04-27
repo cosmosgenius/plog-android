@@ -110,18 +110,26 @@ public class LogListAdapter extends BaseAdapter {
     }
 
     public LogListAdapter(Context context) {
-        this(context,new ArrayList<Log>());
-    }
-
-    public LogListAdapter(Context context,List<Log> m_logs) {
         this.m_context = context;
-        this.m_logs = m_logs;
+        this.m_logs = new ArrayList<Log>();
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(context.getString(R.string.url))
                 .setErrorHandler(new MyErrorHandler())
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         logService = restAdapter.create(LogService.class);
+        logService.Log(new Callback<List<Log>>() {
+            @Override
+            public void success(List<Log> logs, Response response) {
+                m_logs = logs;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 
     public void updateList(List<Log> m_logs){
