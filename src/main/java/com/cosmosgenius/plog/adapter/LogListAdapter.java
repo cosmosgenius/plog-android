@@ -58,7 +58,7 @@ public class LogListAdapter extends BaseAdapter {
 
         logText.setText(log.getPlog());
 
-        deleteButton.setTag(Integer.valueOf(i));
+        deleteButton.setTag(i);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
