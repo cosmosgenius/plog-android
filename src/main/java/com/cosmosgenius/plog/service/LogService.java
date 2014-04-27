@@ -4,6 +4,7 @@ import com.cosmosgenius.plog.bean.Log;
 
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -12,14 +13,14 @@ import retrofit.http.Path;
 
 public interface LogService {
     @GET("/")
-    List<Log> Log();
+    void Log(Callback<List<Log>> cb);
 
     @GET("/{id}")
-    Log Log(@Path("id") String id);
+    void Log(@Path("id") String id, Callback<Log> cb);
 
     @POST("/")
-    Log log(@Body Log log);
+    void log(@Body Log log, Callback<Log> cb);
 
     @DELETE("/{id}")
-    boolean deleteLog(@Path("id") String id);
+    void deleteLog(@Path("id") String id, Callback<Boolean> cb);
 }
