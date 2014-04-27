@@ -51,14 +51,10 @@ public class LogListAdapter extends BaseAdapter {
         if(rowView == null){
             LayoutInflater inflater = (LayoutInflater) m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(R.layout.log_item,parent,false);
-            logText = (TextView) rowView.findViewById(R.id.logText);
-            deleteButton = (ImageButton) rowView.findViewById(R.id.btn_log_item_del);
-            rowView.setTag(new ViewHolder(logText,deleteButton));
-        } else {
-            ViewHolder viewHolder = (ViewHolder) rowView.getTag();
-            logText = viewHolder.m_textView;
-            deleteButton = viewHolder.m_imageButton;
         }
+
+        logText = ViewHolder.get(rowView,R.id.logText);
+        deleteButton = ViewHolder.get(rowView,R.id.btn_log_item_del);
 
         logText.setText(log.getPlog());
 
@@ -131,16 +127,6 @@ public class LogListAdapter extends BaseAdapter {
     public void updateList(List<Log> m_logs){
         this.m_logs = m_logs;
         notifyDataSetChanged();
-    }
-}
-
-class ViewHolder{
-    public final TextView m_textView;
-    public final ImageButton m_imageButton;
-
-    ViewHolder(TextView textView,ImageButton imageButton){
-        this.m_textView = textView;
-        this.m_imageButton = imageButton;
     }
 }
 
