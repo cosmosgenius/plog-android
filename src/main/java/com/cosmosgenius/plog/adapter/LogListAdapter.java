@@ -121,8 +121,7 @@ public class LogListAdapter extends BaseAdapter {
         logService.Log(new Callback<List<Log>>() {
             @Override
             public void success(List<Log> logs, Response response) {
-                m_logs = logs;
-                notifyDataSetChanged();
+                updateList(logs);
             }
 
             @Override
