@@ -11,60 +11,49 @@ import com.cosmosgenius.plog.R;
 import com.cosmosgenius.plog.adapter.LogListAdapter;
 import com.cosmosgenius.plog.button.LogButton;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
+
 public class LogListActivity extends ListActivity {
 
     private LogListAdapter logListAdapter;
-    private LogButton add_log;
-    private EditText input_log;
+    @InjectView(R.id.add_log) LogButton add_log;
+    @InjectView(R.id.input_log) EditText input_log;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_list_activity);
 
-        add_log         = (LogButton) findViewById(R.id.add_log);
-        input_log       = (EditText) findViewById(R.id.input_log);
+        ButterKnife.inject(this);
 
         logListAdapter  = new LogListAdapter(this);
 
         this.setListAdapter(logListAdapter);
 
         add_log.enable(false);
-
-        add_log.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                //getting the text for edit text and added to the list adapter
-                if((input_log.getText() != null) && (input_log.getText().length() > 0)){
-                    logListAdapter.add(input_log.getText().toString());
-                }
-                //clearing the text after the text has been added to the list adapter
-                input_log.setText("");
-            }
-        });
     }
 
+    @OnClick(R.id.add_log)
+    void OnAddLogClick(LogButton view){
+        //getting the text for edit text and added to the list adapter
+        if((input_log.getText() != null) && (input_log.getText().length() > 0)){
+            logListAdapter.add(input_log.getText().toString());
+        }
+        //clearing the text after the text has been added to the list adapter
+        input_log.setText("");
+    }
+
+    @OnTextChanged(value = R.id.input_log , callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    void OnInputLogAfterTextChange(Editable editable){
+        String text = editable.toString();
+        add_log.enable(text.length() > 0);
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        input_log.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String text = editable.toString();
-                add_log.enable(text.length() > 0);
-            }
-        });
     }
 }
