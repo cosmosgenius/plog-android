@@ -43,8 +43,8 @@ public class LogListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
-        View rowView = convertView;
-        Log log = getItem(i);
+        View rowView    = convertView;
+        Log log         = getItem(i);
         TextView logText;
         ImageButton deleteButton;
 
@@ -53,8 +53,8 @@ public class LogListAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.log_item,parent,false);
         }
 
-        logText = ViewHolder.get(rowView,R.id.logText);
-        deleteButton = ViewHolder.get(rowView,R.id.btn_log_item_del);
+        logText         = ViewHolder.get(rowView,R.id.logText);
+        deleteButton    = ViewHolder.get(rowView,R.id.btn_log_item_del);
 
         logText.setText(log.getPlog());
 
