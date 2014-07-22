@@ -7,7 +7,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.12.+'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
     mavenLocal()
@@ -16,7 +16,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         minSdkVersion 19
@@ -25,8 +25,6 @@ android {
 }
 
 dependencies {
-    compile 'com.squareup.retrofit:retrofit:1.6.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.jakewharton:butterknife:5.1.1'
 }
