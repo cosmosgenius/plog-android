@@ -2,6 +2,6 @@ language: android
 android:
   components:
     - build-tools-19.1.0
-licenses:
+  licenses:
     - 'android-sdk-license.*'
 script: gradle clean build
