@@ -3,5 +3,5 @@ android:
   components:
     - build-tools-19.1.0
 licenses:
-    - '.*android-sdk.*'
+    - 'android-sdk-license.*'
 script: gradle clean build
