@@ -4,4 +4,3 @@ android:
     - build-tools-20.0.0
   licenses:
     - 'android-sdk-license.*'
-script: gradle clean build
