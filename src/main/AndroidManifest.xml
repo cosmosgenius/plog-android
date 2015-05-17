@@ -9,7 +9,7 @@
         android:allowBackup="true"
         >
         <activity
-            android:label="Personal Logger"
+            android:label="@string/app_name"
             android:name=".activity.Home">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN"/>
